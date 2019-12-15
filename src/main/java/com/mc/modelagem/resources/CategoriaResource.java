@@ -1,31 +1,28 @@
 package com.mc.modelagem.resources;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mc.modelagem.domain.Categoria;
+import com.mc.modelagem.services.CategoriaService;
 
 @RestController
-@RequestMapping(value="/categorias")
+@RequestMapping(value="/categoria")
 public class CategoriaResource {
 	
-	@RequestMapping(method = RequestMethod.GET)
-	public List<Categoria> listar() {
+	@Autowired
+	private CategoriaService categoriaService;
+	
+	@RequestMapping(value="/{id}",method = RequestMethod.GET)
+	public ResponseEntity<?> find(@PathVariable Integer id) {
 		
-		Categoria c  = new Categoria();
-		c.setId(10);
-		c.setNome("davi");
-		Categoria c1  = new Categoria();
-		c1.setId(12);
-		c1.setNome("kelcya");
-		List<Categoria> lista = new ArrayList<Categoria>();
-		lista.add(c);
-		lista.add(c1);
-		return lista;
+		Categoria c  = categoriaService.buscar(id);
+		
+		return ResponseEntity.ok(c);
 		
 	}
 
