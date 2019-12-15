@@ -14,7 +14,7 @@ public class Categoria implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	@NotNull
 	@Size(min=5, message="Name must be at least 5 characters long")
