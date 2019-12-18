@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mc.modelagem.domain.Categoria;
+import com.mc.modelagem.exceptions.ObjectNotFoundException;
 import com.mc.modelagem.repositories.CategoriaRepository;
 
 @Service
@@ -18,8 +19,10 @@ public class CategoriaService {
 	public Categoria buscar(Integer id) {
 		
 		Optional<Categoria> categoria = categoriaRepository.findById(id);
-		
-		return categoria.orElse(null);
+		if(categoria.isEmpty()) 
+			throw new ObjectNotFoundException("Objeto não foi encontrado");
+			
+		return categoria.get();
 		
 	}
 	
