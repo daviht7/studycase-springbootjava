@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.mc.modelagem.domain.enums.EstadoPagamento;
 import com.mc.modelagem.domain.enums.TipoPagamento;
 
@@ -25,6 +26,7 @@ public class Pagamento implements Serializable {
 	private Date dataPagamento;
 	private Integer numeroParcelas;
 	
+	@JsonBackReference
 	@OneToOne
 	@JoinColumn(name="pedido_id")
 	@MapsId
