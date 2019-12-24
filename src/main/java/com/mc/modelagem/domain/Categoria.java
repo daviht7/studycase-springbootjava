@@ -1,7 +1,6 @@
 package com.mc.modelagem.domain;
 
 import java.io.Serializable;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,8 +12,6 @@ import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 @Entity
 public class Categoria implements Serializable {
 
@@ -25,8 +22,7 @@ public class Categoria implements Serializable {
 	@NotNull
 	@Size(min=5, message="Name must be at least 5 characters long")
 	private String nome;
-	
-	@JsonManagedReference
+
 	@ManyToMany(mappedBy = "categorias")
 	private List<Produto> produtos = new ArrayList<Produto>();
 	
