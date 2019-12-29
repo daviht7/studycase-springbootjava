@@ -26,12 +26,9 @@ public class CategoriaService {
 		
 	}
 	
-	public Categoria save(Categoria categoria) {
-		
-		Categoria c = categoriaRepository.save(categoria);
-		
+	public Categoria save(Categoria categoria) {	
+		Categoria c = categoriaRepository.save(categoria);	
 		return c;
-		
 	}
 	
 }

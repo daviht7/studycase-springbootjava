@@ -3,6 +3,7 @@ package com.mc.modelagem.resources;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,15 +32,10 @@ public class CategoriaResource {
 		
 	}
 	
-	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<?> create(@RequestBody Categoria category) {
-		
-		Produto p = new Produto(null,"mesa",100.00);
-		p.getCategorias().add(category);
-		category.getProdutos().add(p);
+	@PostMapping
+	public ResponseEntity<Categoria> create(@RequestBody Categoria category) {
 		
 		Categoria c  = categoriaService.save(category);
-		produtoService.save(p);
 		
 		return ResponseEntity.ok(c);
 		
