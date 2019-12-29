@@ -30,5 +30,9 @@ public class CategoriaService {
 		Categoria c = categoriaRepository.save(categoria);	
 		return c;
 	}
+	public Categoria update(Categoria categoria) {	
+		Categoria c = categoriaRepository.save(categoria);	
+		return c;
+	}
 	
 }
