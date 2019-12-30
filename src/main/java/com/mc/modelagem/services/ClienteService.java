@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mc.modelagem.domain.Cliente;
-import com.mc.modelagem.exceptions.ObjectNotFoundException;
+import com.mc.modelagem.exceptions.ServiceObjectNotFoundException;
 import com.mc.modelagem.repositories.ClienteRepository;
 
 @Service
@@ -21,7 +21,7 @@ public class ClienteService {
 		
 		Optional<Cliente> cliente = clienteRepository.findById(id);
 		if(cliente.isEmpty()) 
-			throw new ObjectNotFoundException("Objeto não foi encontrado");
+			throw new ServiceObjectNotFoundException("Objeto não foi encontrado");
 			
 		return cliente.get();
 		
