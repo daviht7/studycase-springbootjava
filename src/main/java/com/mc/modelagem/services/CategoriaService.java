@@ -1,8 +1,8 @@
 package com.mc.modelagem.services;
 
+import java.util.List;
 import java.util.Optional;
 
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +18,7 @@ public class CategoriaService {
 	private CategoriaRepository categoriaRepository;
 
 	
-	public Categoria buscar(Integer id) {
+	public Categoria find(Integer id) {
 		
 		Optional<Categoria> categoria = categoriaRepository.findById(id);
 		if(categoria.isEmpty()) 
@@ -26,6 +26,11 @@ public class CategoriaService {
 			
 		return categoria.get();
 		
+	}
+	
+	public List<Categoria> findAll() {		
+		List<Categoria> categorias = categoriaRepository.findAll();
+		return categorias;	
 	}
 	
 	public Categoria save(Categoria categoria) {	
@@ -39,7 +44,7 @@ public class CategoriaService {
 	
 	public void delete(Integer id) {
 		
-		Categoria c = buscar(id);
+		Categoria c = find(id);
 		
 		if(c.getProdutos().size() > 0)
 			throw new ServiceConstraintViolationException("A categoria possui Produtos, não é possível excluí-la.");
