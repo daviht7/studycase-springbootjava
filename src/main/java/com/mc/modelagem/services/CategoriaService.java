@@ -1,9 +1,11 @@
 package com.mc.modelagem.services;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.mc.modelagem.domain.Categoria;
@@ -28,9 +30,9 @@ public class CategoriaService {
 		
 	}
 	
-	public List<Categoria> findAll() {		
-		List<Categoria> categorias = categoriaRepository.findAll();
-		return categorias;	
+	public Page<Categoria> findAll(Integer page, Integer linesPerPage, String orderBy, String direction) {		
+		PageRequest pageRequest = PageRequest.of(page,linesPerPage,Direction.valueOf(direction),orderBy);
+		return categoriaRepository.findAll(pageRequest);
 	}
 	
 	public Categoria save(Categoria categoria) {	
@@ -43,15 +45,10 @@ public class CategoriaService {
 	}
 	
 	public void delete(Integer id) {
-		
 		Categoria c = find(id);
-		
 		if(c.getProdutos().size() > 0)
 			throw new ServiceConstraintViolationException("A categoria possui Produtos, não é possível excluí-la.");
-		
-		categoriaRepository.deleteById(id);	
-		
+		categoriaRepository.deleteById(id);		
 	}
-	
 	
 }
