@@ -1,16 +1,17 @@
-package com.mc.modelagem.resources;
+package com.mc.modelagem.exceptions;
+
+import java.util.Iterator;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.mc.modelagem.domain.StandardError;
-import com.mc.modelagem.exceptions.ServiceConstraintViolationException;
-import com.mc.modelagem.exceptions.ServiceObjectNotFoundException;
 
 @ControllerAdvice
 public class ResourceExceptionHandle {
@@ -31,7 +32,16 @@ public class ResourceExceptionHandle {
 		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
 		
-	}
+	} 
 	
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ResponseEntity<StandardError> methodArgument(MethodArgumentNotValidException e, HttpServletRequest request) {
+		
+		ValidationError err = new ValidationError(HttpStatus.BAD_REQUEST.value(),"Erro de validação",System.currentTimeMillis());
+		for (FieldError erro : e.getBindingResult().getFieldErrors()) {
+			err.addError(erro.getField(), erro.getDefaultMessage());
+		}
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);	
+	}
 
 }
