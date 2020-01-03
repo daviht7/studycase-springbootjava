@@ -1,5 +1,7 @@
 package com.mc.modelagem.resources;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -42,13 +44,13 @@ public class CategoriaResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Categoria> create(@RequestBody Categoria category) {
+	public ResponseEntity<Categoria> create(@Valid @RequestBody CategoriaDTO category) {
 		Categoria c  = categoriaService.save(category);
 		return ResponseEntity.ok(c);
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Categoria> update(@RequestBody Categoria category,@PathVariable Integer id) {
+	public ResponseEntity<Categoria> update(@Valid @RequestBody CategoriaDTO category,@PathVariable Integer id) {
 		find(id);
 		category.setId(id);
 		Categoria c  = categoriaService.update(category);

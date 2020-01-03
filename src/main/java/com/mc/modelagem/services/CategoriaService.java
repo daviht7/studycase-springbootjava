@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.mc.modelagem.domain.Categoria;
+import com.mc.modelagem.dto.CategoriaDTO;
 import com.mc.modelagem.exceptions.ServiceConstraintViolationException;
 import com.mc.modelagem.exceptions.ServiceObjectNotFoundException;
 import com.mc.modelagem.repositories.CategoriaRepository;
@@ -35,12 +36,12 @@ public class CategoriaService {
 		return categoriaRepository.findAll(pageRequest);
 	}
 	
-	public Categoria save(Categoria categoria) {	
-		Categoria c = categoriaRepository.save(categoria);	
+	public Categoria save(CategoriaDTO categoria) {	
+		Categoria c = categoriaRepository.save(new Categoria(categoria.getId(), categoria.getNome()));	
 		return c;
 	}
-	public Categoria update(Categoria categoria) {	
-		Categoria c = categoriaRepository.save(categoria);	
+	public Categoria update(CategoriaDTO categoria) {	
+		Categoria c = categoriaRepository.save(new Categoria(categoria.getId(),categoria.getNome()));	
 		return c;
 	}
 	
