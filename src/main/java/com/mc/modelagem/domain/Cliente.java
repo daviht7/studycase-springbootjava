@@ -13,6 +13,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mc.modelagem.domain.enums.TipoCliente;
@@ -25,8 +29,14 @@ public class Cliente implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
+	@NotEmpty(message = "O nome não pode ser vazio.")
+	@Length(min = 5,max = 120, message = "O nome tem que ter entre 5 e 120 caracteres.")
 	private String nome;
+	
+	@NotEmpty(message = "O e-mail não pode ser vazio.")
+	@Email(message = "E-mail inválido")
 	private String email;
+	
 	private String cpfcnpj;
 	private Integer tipo;
 

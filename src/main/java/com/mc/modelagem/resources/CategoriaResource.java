@@ -28,7 +28,7 @@ public class CategoriaResource {
 	
 	@GetMapping(value="/{id}")
 	public ResponseEntity<?> find(@PathVariable Integer id) {
-		Categoria c  = categoriaService.find(id);
+		Categoria c  = categoriaService.findById(id);
 		return ResponseEntity.ok(c);
 	}
 	
@@ -53,7 +53,7 @@ public class CategoriaResource {
 	public ResponseEntity<Categoria> update(@Valid @RequestBody CategoriaDTO category,@PathVariable Integer id) {
 		find(id);
 		category.setId(id);
-		Categoria c  = categoriaService.update(category);
+		Categoria c  = categoriaService.save(category);
 		return ResponseEntity.ok(c);
 	}
 	

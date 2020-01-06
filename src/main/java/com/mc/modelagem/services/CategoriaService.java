@@ -21,14 +21,12 @@ public class CategoriaService {
 	private CategoriaRepository categoriaRepository;
 
 	
-	public Categoria find(Integer id) {
-		
+	public Categoria findById(Integer id) {
 		Optional<Categoria> categoria = categoriaRepository.findById(id);
 		if(categoria.isEmpty()) 
 			throw new ServiceObjectNotFoundException("Objeto não foi encontrado");
 			
 		return categoria.get();
-		
 	}
 	
 	public Page<Categoria> findAll(Integer page, Integer linesPerPage, String orderBy, String direction) {		
@@ -40,13 +38,9 @@ public class CategoriaService {
 		Categoria c = categoriaRepository.save(new Categoria(categoria.getId(), categoria.getNome()));	
 		return c;
 	}
-	public Categoria update(CategoriaDTO categoria) {	
-		Categoria c = categoriaRepository.save(new Categoria(categoria.getId(),categoria.getNome()));	
-		return c;
-	}
-	
+
 	public void delete(Integer id) {
-		Categoria c = find(id);
+		Categoria c = findById(id);
 		if(c.getProdutos().size() > 0)
 			throw new ServiceConstraintViolationException("A categoria possui Produtos, não é possível excluí-la.");
 		categoriaRepository.deleteById(id);		
