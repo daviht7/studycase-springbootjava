@@ -8,16 +8,28 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import com.mc.modelagem.domain.Cidade;
 import com.mc.modelagem.domain.Cliente;
+import com.mc.modelagem.domain.Endereco;
+import com.mc.modelagem.domain.enums.TipoCliente;
+import com.mc.modelagem.dto.ClienteNewDTO;
 import com.mc.modelagem.exceptions.ServiceConstraintViolationException;
 import com.mc.modelagem.exceptions.ServiceObjectNotFoundException;
+import com.mc.modelagem.repositories.CidadeRepository;
 import com.mc.modelagem.repositories.ClienteRepository;
+import com.mc.modelagem.repositories.EnderecoRepository;
 
 @Service
 public class ClienteService {
 	
 	@Autowired
 	private ClienteRepository clienteRepository;
+	
+	@Autowired
+	private CidadeRepository cidadeRepository;
+	
+	@Autowired
+	private EnderecoRepository enderecoRepository;
 
 	
 	public Cliente findById(Integer id) {
@@ -29,8 +41,10 @@ public class ClienteService {
 	}
 	
 	public Cliente save(Cliente cliente) {
-		Cliente c = clienteRepository.save(cliente);
-		return c;
+		cliente.setId(null);
+		Cliente obj = clienteRepository.save(cliente);
+		enderecoRepository.saveAll(obj.getEnderecos());
+		return obj;
 	}
 
 	public Page<Cliente> findAll(Integer page, Integer linesPerPage, String orderBy, String direction) {		
@@ -45,6 +59,25 @@ public class ClienteService {
 			throw new ServiceConstraintViolationException("O cliente possui Pedidos, não é possível excluí-lo.");
 		
 		clienteRepository.deleteById(id);		
+	}
+	
+	public Cliente fromDTO(ClienteNewDTO c) {
+		Cliente cli = new Cliente(null, c.getNome(), c.getEmail(), c.getCpfcnpj(),TipoCliente.toEnum(c.getTipo()));
+		Optional<Cidade> cid = cidadeRepository.findById(c.getCidadeId());
+		Endereco end = new Endereco(null, c.getLogradouro(), 
+				c.getLogradouro(), c.getNumero(), c.getBairro(), c.getCep(),cli , cid.get());
+		
+		cli.getEnderecos().add(end);
+		cli.getTelefones().add(c.getTelefone1());
+		
+		if(c.getTelefone2() != null) {
+			cli.getTelefones().add(c.getTelefone2());
+		}
+		if(c.getTelefone3() != null) {
+			cli.getTelefones().add(c.getTelefone3());
+		}
+		
+		return cli;
 	}
 	
 }

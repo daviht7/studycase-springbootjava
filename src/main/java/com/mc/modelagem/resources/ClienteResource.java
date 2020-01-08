@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mc.modelagem.domain.Cliente;
+import com.mc.modelagem.dto.ClienteNewDTO;
 import com.mc.modelagem.services.ClienteService;
 
 @RestController
@@ -42,8 +43,9 @@ public class ClienteResource {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<?> create(@RequestBody Cliente cliente) {
-		Cliente c  = clienteService.save(cliente);
+	public ResponseEntity<?> create(@Valid @RequestBody ClienteNewDTO cliente) {
+		Cliente cli = clienteService.fromDTO(cliente);
+		Cliente c  = clienteService.save(cli);
 		return ResponseEntity.ok(c);
 	}
 	
