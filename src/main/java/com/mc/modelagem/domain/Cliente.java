@@ -8,6 +8,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,10 +35,12 @@ public class Cliente implements Serializable {
 	@Length(min = 5,max = 120, message = "O nome tem que ter entre 5 e 120 caracteres.")
 	private String nome;
 	
+	@Column(unique = true)
 	@NotEmpty(message = "O e-mail não pode ser vazio.")
 	@Email(message = "E-mail inválido")
 	private String email;
 	
+	@Column(unique = true)
 	private String cpfcnpj;
 	private Integer tipo;
 
