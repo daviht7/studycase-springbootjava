@@ -2,21 +2,37 @@ package com.mc.modelagem.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
+import com.mc.modelagem.services.validation.ClientInsert;
+
+@ClientInsert
 public class ClienteNewDTO implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
+	@NotEmpty(message = "O nome não pode ser vazio.")
+	@Length(min = 5,max = 120, message = "O nome tem que ter entre 5 e 120 caracteres.")
 	private String nome;
+	
+	@NotEmpty(message = "O e-mail não pode ser vazio.")
+	@Email(message = "O nome tem que ter entre 5 e 120 caracteres.")
 	private String email;
 	private String cpfcnpj;
 	private Integer tipo;
 	
+	@NotEmpty(message = "O logradouro não pode ser vazio.")
 	private String logradouro;
+	@NotEmpty(message = "O número não pode ser vazio.")
 	private String numero;
 	private String complemento;
 	private String bairro;
 	private String cep;
 	
+	@NotEmpty(message = "O telefone não pode ser vazio.")
 	private String telefone1;
 	private String telefone2;
 	private String telefone3;
