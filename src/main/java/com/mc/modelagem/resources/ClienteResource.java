@@ -27,7 +27,7 @@ public class ClienteResource {
 	private ClienteService clienteService;
 	
 	@GetMapping(value="/{id}")
-	public ResponseEntity<?> findById(@PathVariable Integer id) {
+	public ResponseEntity<Cliente> findById(@PathVariable Integer id) {
 		Cliente c  = clienteService.findById(id);
 		return ResponseEntity.ok(c);
 	}
@@ -51,7 +51,6 @@ public class ClienteResource {
 	
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<Cliente> update(@Valid @RequestBody Cliente cliente,@PathVariable Integer id) {
-		findById(id);
 		cliente.setId(id);
 		Cliente c  = clienteService.save(cliente);
 		return ResponseEntity.ok(c);

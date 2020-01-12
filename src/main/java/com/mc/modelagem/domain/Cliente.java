@@ -22,6 +22,7 @@ import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mc.modelagem.domain.enums.TipoCliente;
+import com.mc.modelagem.services.validation.ClientUpdate;
 
 @Entity
 public class Cliente implements Serializable {

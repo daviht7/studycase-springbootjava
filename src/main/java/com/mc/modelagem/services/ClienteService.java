@@ -40,10 +40,26 @@ public class ClienteService {
 		return cliente.get();
 	}
 	
+	public Cliente findByEmail(String email) {
+		Cliente cliente = clienteRepository.findByEmail(email);
+		
+		return cliente;
+	}
+	
 	public Cliente save(Cliente cliente) {
-		cliente.setId(null);
+
+		if(cliente.getId() != null) {
+			Cliente c = findByEmail(cliente.getEmail());
+			
+			if(c != null && !cliente.getId().equals(c.getId())) {
+				throw new ServiceObjectNotFoundException("E-mail já cadastrado para outro cliente.");
+			}
+		}
+		
 		Cliente obj = clienteRepository.save(cliente);
-		enderecoRepository.saveAll(obj.getEnderecos());
+		if(obj.getEnderecos().size() > 0) {
+			enderecoRepository.saveAll(obj.getEnderecos());
+		}
 		return obj;
 	}
 
